@@ -11,7 +11,6 @@ public class JumpQuestion implements Lifeline {
 
     public void lifelineResponse(Question question) {
         question.removeAllIncorrectAnswers();
-
     }
 
     public void useLifeline() {

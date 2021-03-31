@@ -17,14 +17,6 @@ public class Game {
         this.playerInput = new Scanner(System.in);
     }
 
-    public HashSet<Question> getQuestions() {
-        return questions;
-    }
-
-    public ArrayList<Lifeline> getLifelines() {
-        return lifelines;
-    }
-
     /**
      * Method used to add the questions to the LinkedHashSet
      * @param questions
@@ -61,5 +53,10 @@ public class Game {
             }
         }
         return lifeline.toString();
+    }
+
+    public void pay(PaymentStrategy paymentMethod, int amount)
+    {
+        paymentMethod.pay(amount);
     }
 }

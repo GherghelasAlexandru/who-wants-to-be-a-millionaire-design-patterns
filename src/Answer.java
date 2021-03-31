@@ -16,5 +16,4 @@ public class Answer {
         return answers;
     }
 
-
 }

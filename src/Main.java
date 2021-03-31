@@ -4,7 +4,15 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
 
-        Player player = new Player("Alex");
+        Context context = new Context();
+        ChoosingState choosingState = new ChoosingState();
+        PlayingState playingState = new PlayingState();
+        GameOverState gameOverState = new GameOverState();
+
+        PaymentStrategy creditCardStrategy = new CreditCardStrategy("Alex", "12345678", "121", "12/12/2023");
+        PaymentStrategy checkStrategy = new CheckStrategy("Alex", "12/12/2023");
+
+        Player player = new Player("Alex", 25);
         Game game = new Game(player);
 
         FiftyFifty fiftyFifty = new FiftyFifty("\n1.FiftyFifty   ");
@@ -225,61 +233,82 @@ public class Main {
         System.out.println("***************************************************************");
         int playerStreak = 0; // used to save the player strike
         int attempts;
-        for (Question i : game.questions) {
-            System.out.println(i.getQuestion() + " " + i.getQuestionValue() + "$");
-            System.out.println(i.showAnswers());
-            System.out.println(game.showLifeline());
 
-            String playerInput = game.getPlayerInput().nextLine(); //user input
+        choosingState.doAction(context);
+        System.out.println("Are you ready to win one million dollars??? (y/n)");
+        String playerChoice = game.getPlayerInput().nextLine();
+        if(playerChoice.equals("y") ) {
 
-            for (Lifeline j : game.lifelines) {
-                //check if the player input is 1 2 or 3 representing a lifeline and check is the lifeline its used
-                if ((playerInput.equals(j.toString()) && !j.isUsed())) {
-                    j.useLifeline();
-                    System.out.println(game.showLifeline());
-                    j.lifelineResponse(i);
-                    System.out.println(i.showAnswers());
-                    playerInput = game.getPlayerInput().nextLine();
-                }
-                //if the player input is still 1 2 or 3 but he already used the specific lifeline
-                // he gets 3 more attempts to enter a valid answer
-                for (attempts = 2; attempts > 0; attempts--) {
-                    if (playerInput.equals(j.toString()) && j.isUsed()) {
+            playingState.doAction(context);
 
-                        System.out.println(j.message());
-                        System.out.println("You have " + attempts + " attempts to enter a valid answer");
+            for (Question i : game.questions) {
+                System.out.println(i.getQuestion() + " " + i.getQuestionValue() + "$");
+                System.out.println(i.showAnswers());
+                System.out.println(game.showLifeline());
+
+                String playerInput = game.getPlayerInput().nextLine(); //user input
+
+                for (Lifeline j : game.lifelines) {
+                    //check if the player input is 1 2 or 3 representing a lifeline and check is the lifeline its used
+                    if ((playerInput.equals(j.toString()) && !j.isUsed())) {
+                        j.useLifeline();
+                        System.out.println(game.showLifeline());
+                        j.lifelineResponse(i);
+                        System.out.println(i.showAnswers());
                         playerInput = game.getPlayerInput().nextLine();
                     }
-                }
-            }
-            //If the player input is the correct answer for the question, increment playerStrike
-            if (playerInput.equals(i.getCorrectAnswer(i))) {
-                playerStreak++;
-                //Secure the money from checkpoint 5 for 10
-                if (playerStreak == 5 || playerStreak == 10) {
-                    System.out.println("congrats you've secured a " + i.getLevel().getCheckPointValue() + "$");
-                }
-                //basically you won
-                if (playerStreak == 15) {
-                    System.out.println("Congratulations " + player.getPlayerName() + " you are a millionaire!");
-                    game.getPlayerInput().close();
-                }
-            } else {
-                if (!playerInput.equals(i.getCorrectAnswer(i))) {
-                    //If the player input is not the correct answer and value of the level is 0 means that he didnt
-                    //reach any checkpoint yet thus he lost everything
-                    if (i.getLevel().getCheckPointValue() == 0) {
-                        System.out.println("lost all money");
-                        game.getPlayerInput().close();
-                    } else {
-                        //Until here if he reached a checkpoint he got to keep it
-                        System.out.println("You lost! but you get to keep what you secured " + i.getLevel().getCheckPointValue() + "$");
-                        game.getPlayerInput().close();
-                        System.out.println("Game ended");
+                    //if the player input is still 1 2 or 3 but he already used the specific lifeline
+                    // he gets 3 more attempts to enter a valid answer
+                    for (attempts = 2; attempts > 0; attempts--) {
+                        if (playerInput.equals(j.toString()) && j.isUsed()) {
+
+                            System.out.println(j.message());
+                            System.out.println("You have " + attempts + " attempts to enter a valid answer");
+                            playerInput = game.getPlayerInput().nextLine();
+                        }
                     }
-                    break;
+                }
+                //If the player input is the correct answer for the question, increment playerStrike
+                if (playerInput.equals(i.getCorrectAnswer(i))) {
+                    playerStreak++;
+                    //Secure the money from checkpoint 5 for 10
+                    if (playerStreak == 5 || playerStreak == 10) {
+                        System.out.println("congrats you've secured a " + i.getLevel().getCheckPointValue() + "$");
+                    }
+                    //basically you won
+                    if (playerStreak == 15) {
+                        System.out.println("Congratulations " + player.getPlayerName() + " you are a millionaire!");
+                        game.getPlayerInput().close();
+                    }
+                } else {
+                    if (!playerInput.equals(i.getCorrectAnswer(i))) {
+                        //If the player input is not the correct answer and value of the level is 0 means that he didnt
+                        //reach any checkpoint yet thus he lost everything
+                        if (i.getLevel().getCheckPointValue() == 0) {
+                            System.out.println("lost all money");
+                            gameOverState.doAction(context);
+                            game.getPlayerInput().close();
+                        } else {
+                            //Until here if he reached a checkpoint he got to keep it
+                            System.out.println("You lost! but you get to keep what you secured " + i.getLevel().getCheckPointValue() + "$");
+                            System.out.println("Would you prefer bank transfer or check?");
+                            System.out.println("a. Bank transfer");
+                            System.out.println("b. Check");
+                            playerInput = game.getPlayerInput().nextLine();
+                            if(playerInput.equals("a"))
+                            {
+                                game.pay(creditCardStrategy, i.getQuestionValue());
+                            }
+                            else {
+                                game.pay(checkStrategy, i.getQuestionValue());
+                            }
+                            game.getPlayerInput().close();
+                            System.out.println("Game ended");
+                        }
+                        break;
+                    }
                 }
             }
-        }
+        } else System.out.println("fucking looser");
     }
 }
