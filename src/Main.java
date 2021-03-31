@@ -23,7 +23,7 @@ public class Main {
         PlayingState playingState = new PlayingState();
         GameOverState gameOverState = new GameOverState();
 
-        PaymentStrategy creditCardStrategy = new CreditCardStrategy("Alex", "12345678", "121", "12/12/2023");
+        PaymentStrategy creditCardStrategy = new CreditCardStrategy("Alex", "1244 5678 5432 2234", "121", "12/12/2023");
         PaymentStrategy checkStrategy = new CheckStrategy("Alex", "12/12/2023");
 
         Question question1 = new Question("1) Which one of the following is not a fundamental design pattern group?", "d", 100, low);

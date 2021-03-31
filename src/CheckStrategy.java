@@ -1,3 +1,5 @@
+import java.sql.SQLOutput;
+
 public class CheckStrategy implements PaymentStrategy{
 
     private String name;
@@ -13,6 +15,8 @@ public class CheckStrategy implements PaymentStrategy{
     @Override
     public void pay(int amount) {
         System.out.println(amount + "$ paid using check");
+        System.out.println("Account name: " + name);
+        System.out.println("Description of the payment: " + description);
         System.out.println("The check will expire on " + dateOfExpiry);
     }
 }

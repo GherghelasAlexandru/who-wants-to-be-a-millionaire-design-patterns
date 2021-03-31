@@ -14,6 +14,10 @@ public class CreditCardStrategy implements PaymentStrategy {
     @Override
     public void pay(int amount) {
         System.out.println(amount + "$ paid with credit/debit card");
+        System.out.println("Account name: " + name);
+        System.out.println("Card number: " + cardNumber);
+        System.out.println("CVV: " + cvv);
+        System.out.println("Date of expiration: " + dateOfExpiry);
         System.out.println("The transfer will be made in 24h");
     }
 }
