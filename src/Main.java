@@ -1,18 +1,8 @@
-import java.io.IOException;
-
 
 public class Main {
     public static void main(String[] args) {
 
-        Context context = new Context();
-        ChoosingState choosingState = new ChoosingState();
-        PlayingState playingState = new PlayingState();
-        GameOverState gameOverState = new GameOverState();
-
-        PaymentStrategy creditCardStrategy = new CreditCardStrategy("Alex", "12345678", "121", "12/12/2023");
-        PaymentStrategy checkStrategy = new CheckStrategy("Alex", "12/12/2023");
-
-        Player player = new Player("Alex", 25);
+        Player player = new Player("Alex", 24);
         Game game = new Game(player);
 
         FiftyFifty fiftyFifty = new FiftyFifty("\n1.FiftyFifty   ");
@@ -27,6 +17,14 @@ public class Main {
         Easy easy = new Easy();
         Medium medium = new Medium();
         Hard hard = new Hard();
+
+        Context context = new Context();
+        ChoosingState choosingState = new ChoosingState();
+        PlayingState playingState = new PlayingState();
+        GameOverState gameOverState = new GameOverState();
+
+        PaymentStrategy creditCardStrategy = new CreditCardStrategy("Alex", "12345678", "121", "12/12/2023");
+        PaymentStrategy checkStrategy = new CheckStrategy("Alex", "12/12/2023");
 
         Question question1 = new Question("1) Which one of the following is not a fundamental design pattern group?", "d", 100, low);
 
@@ -273,27 +271,35 @@ public class Main {
                     playerStreak++;
                     //Secure the money from checkpoint 5 for 10
                     if (playerStreak == 5 || playerStreak == 10) {
-                        System.out.println("congrats you've secured a " + i.getLevel().getCheckPointValue() + "$");
+                        System.out.println("Congrats you've secured a " + i.getLevel().getCheckPointValue() + "$");
                     }
                     //basically you won
                     if (playerStreak == 15) {
                         System.out.println("Congratulations " + player.getPlayerName() + " you are a millionaire!");
+                        game.ShowMessage();
+                        playerInput = game.getPlayerInput().nextLine();
+                        if(playerInput.equals("a"))
+                        {
+                            game.pay(creditCardStrategy, i.getQuestionValue());
+                        }
+                        else {
+                            game.pay(checkStrategy, i.getQuestionValue());
+                        }
                         game.getPlayerInput().close();
+                        gameOverState.doAction(context);
                     }
                 } else {
                     if (!playerInput.equals(i.getCorrectAnswer(i))) {
                         //If the player input is not the correct answer and value of the level is 0 means that he didnt
                         //reach any checkpoint yet thus he lost everything
                         if (i.getLevel().getCheckPointValue() == 0) {
-                            System.out.println("lost all money");
+                            System.out.println("Unfortunately you lost everything..");
                             gameOverState.doAction(context);
                             game.getPlayerInput().close();
                         } else {
-                            //Until here if he reached a checkpoint he got to keep it
+                            //Until here if he reached a checkpoint he got to keep it and has the option to choose the payment method
                             System.out.println("You lost! but you get to keep what you secured " + i.getLevel().getCheckPointValue() + "$");
-                            System.out.println("Would you prefer bank transfer or check?");
-                            System.out.println("a. Bank transfer");
-                            System.out.println("b. Check");
+                            game.ShowMessage();
                             playerInput = game.getPlayerInput().nextLine();
                             if(playerInput.equals("a"))
                             {
@@ -303,12 +309,12 @@ public class Main {
                                 game.pay(checkStrategy, i.getQuestionValue());
                             }
                             game.getPlayerInput().close();
-                            System.out.println("Game ended");
+                            gameOverState.doAction(context);
                         }
                         break;
                     }
                 }
             }
-        } else System.out.println("fucking looser");
+        } else System.out.println("Well you lost without even trying... :(");
     }
 }

@@ -59,4 +59,10 @@ public class Game {
     {
         paymentMethod.pay(amount);
     }
+
+    public void ShowMessage() {
+        System.out.println("Would you prefer bank transfer or check?");
+        System.out.println("a. Bank transfer");
+        System.out.println("b. Check");
+    }
 }

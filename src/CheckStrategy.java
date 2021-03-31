@@ -13,6 +13,6 @@ public class CheckStrategy implements PaymentStrategy{
     @Override
     public void pay(int amount) {
         System.out.println(amount + "$ paid using check");
-        System.out.println("The check will expire on" + dateOfExpiry);
+        System.out.println("The check will expire on " + dateOfExpiry);
     }
 }
