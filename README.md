@@ -41,3 +41,6 @@ Since design patterns are the typical solution to commonly occurring problems in
 – We implemented the strategy pattern for the payment system. If the player manages to secure one of the checkpoints and had money to receive, 2 strategies will be provided. One of them is to get the money via credit card and the second one is to receive a check. The player gets to choose one of them at the end of the game.
 #### State
 – To implement the state design pattern, we crated a State interface to define some actions and then concrete classes that represent various states and a context object whose behavior varies as its state object changes.
+
+## UML
+![UML diagram](UML.PNG)
