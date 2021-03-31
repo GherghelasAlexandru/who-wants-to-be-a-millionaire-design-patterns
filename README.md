@@ -38,6 +38,6 @@ Since design patterns are the typical solution to commonly occurring problems in
 #### Template 
 – The game will be structured in levels starting with a lower’s difficulty level for the first question following with questions with a higher difficulty than the previous. There will be 4 different levels: Low, Easy, Medium, High. So basically, the Level class will be the “skeleton” and the Low, Easy, Medium, and High will override the methods without changing its structure.
 #### Strategy 
-– We implemented the strategy pattern for the payment system. If the player manages to secure one of the checkpoints and had money to receive, 2 strategies will be provided. One of them if to get the money via credit card and the second one is to receive a check. The player gets to choose one of them at the end of the game.
+– We implemented the strategy pattern for the payment system. If the player manages to secure one of the checkpoints and had money to receive, 2 strategies will be provided. One of them is to get the money via credit card and the second one is to receive a check. The player gets to choose one of them at the end of the game.
 #### State
 – To implement the state design pattern, we crated a State interface to define some actions and then concrete classes that represent various states and a context object whose behavior varies as its state object changes.
