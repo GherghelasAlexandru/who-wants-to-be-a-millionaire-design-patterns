@@ -37,7 +37,7 @@ Since design patterns are the typical solution to commonly occurring problems in
 – The class Lifeline will be an interface which is common to all objects that can be implemented by it.
 #### Template 
 – The game will be structured in levels starting with a lower’s difficulty level for the first question following with questions with a higher difficulty than the previous. There will be 4 different levels: Low, Easy, Medium, High. So basically, the Level class will be the “skeleton” and the Low, Easy, Medium, and High will override the methods without changing its structure.
-#### Observer 
-– We will have an interface named CheckAvailability which will make possible the communication between the Lifeline and Game class. When the players use one of the lifelines a notify will be sent that the lifeline has been use and the return message will be the remaining lifelines. A method CheckAvailability will be used to check the Boolean of the lifeline.
-#### Mediator
-– As the name suggests, the mediator class will restrict direct communications between the Question, Game, Lifeline and CheckAvailability class. Communications will only take place using the mediator class.
+#### Strategy 
+– We implemented the strategy pattern for the payment system. If the player manages to secure one of the checkpoints and had money to receive, 2 strategies will be provided. One of them if to get the money via credit card and the second one is to receive a check. The player gets to choose one of them at the end of the game.
+#### State
+– To implement the state design pattern, we crated a State interface to define some actions and then concrete classes that represent various states and a context object whose behavior varies as its state object changes.
