@@ -10,7 +10,7 @@ public class CreditCardStrategy implements PaymentStrategy {
             this.cvv=cvv;
             this.dateOfExpiry=expiryDate;
         }
-
+    // The payment will be made via credit/debit card
     @Override
     public void pay(int amount) {
         System.out.println(amount + "$ paid with credit/debit card");

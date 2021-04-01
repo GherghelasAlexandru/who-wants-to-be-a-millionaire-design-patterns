@@ -1,4 +1,4 @@
-import java.sql.SQLOutput;
+
 
 public class CheckStrategy implements PaymentStrategy{
 
@@ -11,7 +11,7 @@ public class CheckStrategy implements PaymentStrategy{
         this.dateOfExpiry = dateOfExpiry;
         this.description = "Money got from Who want to be a millionaire game";
     }
-
+    // The payment will be made via a check
     @Override
     public void pay(int amount) {
         System.out.println(amount + "$ paid using check");

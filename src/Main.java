@@ -276,17 +276,7 @@ public class Main {
                     //basically you won
                     if (playerStreak == 15) {
                         System.out.println("Congratulations " + player.getPlayerName() + " you are a millionaire!");
-                        game.ShowMessage();
-                        playerInput = game.getPlayerInput().nextLine();
-                        if(playerInput.equals("a"))
-                        {
-                            game.pay(creditCardStrategy, i.getQuestionValue());
-                        }
-                        else {
-                            game.pay(checkStrategy, i.getQuestionValue());
-                        }
-                        game.getPlayerInput().close();
-                        gameOverState.doAction(context);
+                        PayOption(game, context, gameOverState, creditCardStrategy, checkStrategy, i);
                     }
                 } else {
                     if (!playerInput.equals(i.getCorrectAnswer(i))) {
@@ -299,22 +289,27 @@ public class Main {
                         } else {
                             //Until here if he reached a checkpoint he got to keep it and has the option to choose the payment method
                             System.out.println("You lost! but you get to keep what you secured " + i.getLevel().getCheckPointValue() + "$");
-                            game.ShowMessage();
-                            playerInput = game.getPlayerInput().nextLine();
-                            if(playerInput.equals("a"))
-                            {
-                                game.pay(creditCardStrategy, i.getQuestionValue());
-                            }
-                            else {
-                                game.pay(checkStrategy, i.getQuestionValue());
-                            }
-                            game.getPlayerInput().close();
-                            gameOverState.doAction(context);
+                            PayOption(game, context, gameOverState, creditCardStrategy, checkStrategy, i);
                         }
                         break;
                     }
                 }
             }
         } else System.out.println("Well you lost without even trying... :(");
+    }
+
+    private static void PayOption(Game game, Context context, GameOverState gameOverState, PaymentStrategy creditCardStrategy, PaymentStrategy checkStrategy, Question i) {
+        String playerInput;
+        game.ShowMessage();
+        playerInput = game.getPlayerInput().nextLine();
+        if(playerInput.equals("a"))
+        {
+            game.pay(creditCardStrategy, i.getQuestionValue());
+        }
+        else {
+            game.pay(checkStrategy, i.getQuestionValue());
+        }
+        game.getPlayerInput().close();
+        gameOverState.doAction(context);
     }
 }

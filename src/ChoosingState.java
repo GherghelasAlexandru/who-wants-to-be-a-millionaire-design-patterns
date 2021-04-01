@@ -6,6 +6,6 @@ public class ChoosingState implements State {
     }
 
     public String toString(){
-        return "GameOver State";
+        return "Choosing State";
     }
 }
