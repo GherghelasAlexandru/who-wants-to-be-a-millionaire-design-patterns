@@ -43,4 +43,4 @@ Since design patterns are the typical solution to commonly occurring problems in
 – To implement the state design pattern, we crated a State interface to define some actions and then concrete classes that represent various states and a context object whose behavior varies as its state object changes.
 
 ## UML
-![UML diagram](UML.PNG)
+![UML diagram](UML.png)
