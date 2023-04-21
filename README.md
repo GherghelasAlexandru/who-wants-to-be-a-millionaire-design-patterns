@@ -1,7 +1,7 @@
 # Who-wants-to-be-a-millionaire-design-patterns
 ***
 ## Idea
-Our idea for the design patterns course is to recreate the “Who wants to be a millionaire?” game in a digital environment in the purpose of highlighting the different design patterns that can be implemented. Therefore, a Java application will be created with the following specifications.
+The “Who wants to be a millionaire?” game in a digital environment in the purpose of highlighting the different design patterns that can be implemented. 
 
 ## Description
 The player needs to correctly answer a series o multiple-choice questions in order to advance to the one-million-euro worth question. There are 15 different questions in total and each one is worth a specific amount of money. There are three different checkpoints in the game structure. The players accumulate money with each correct answer and if he answers incorrectly before he reaches any checkpoint than he loses everything accumulated. The player also gets three different Lifelines to assist them if they got stuck on a particular question and each lifeline can be used once.
